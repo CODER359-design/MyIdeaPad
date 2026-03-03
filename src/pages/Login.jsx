@@ -35,34 +35,92 @@ export default function Login() {
 
   return (
     <div className="auth-page page-enter">
-      <div className="auth-card">
-        <h1>MyIdeaPad</h1>
-        <h2>Вхід</h2>
-        <form onSubmit={handleSubmit}>
-          {error && <div className="error-msg">{error}</div>}
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            autoComplete="email"
-          />
-          <input
-            type="password"
-            placeholder="Пароль"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            autoComplete="current-password"
-          />
-          <button type="submit" disabled={loading}>
-            {loading ? "Вхід..." : "Увійти"}
+      <div className="auth-shell">
+        <section className="auth-showcase">
+          <div>
+            <p className="eyebrow">MyIdeaPad</p>
+            <h1>Професійний нотатник для тих, хто мислить продуктами</h1>
+            <p className="auth-showcase__subtitle">
+              Поверніться до гайдів, концептів і нотаток з будь-якого пристрою. Захищена синхронізація,
+              інтуїтивний редактор і тонни натхнення.
+            </p>
+          </div>
+
+          <div className="auth-showcase__chips">
+            <span className="chip chip--accent">Realtime sync</span>
+            <span className="chip">Focus mode</span>
+            <span className="chip">Encrypted drafts</span>
+          </div>
+
+          <div className="auth-showcase__stats">
+            <div className="auth-stat">
+              <strong>48K+</strong>
+              <span>впорядкованих ідей</span>
+            </div>
+            <div className="auth-stat">
+              <strong>3.5x</strong>
+              <span>швидше знаходите інсайти</span>
+            </div>
+            <div className="auth-stat">
+              <strong>99.9%</strong>
+              <span>uptime & приватність</span>
+            </div>
+          </div>
+
+          <div className="auth-showcase__glass">
+            <p>“Я більше не гублю своїх брейнштормів. MyIdeaPad став моїм особистим радаром ідей.”</p>
+            <span>— СЕО студії концептів</span>
+          </div>
+        </section>
+
+        <section className="auth-form-card">
+          <div className="auth-form-card__header">
+            <p className="eyebrow">Вхід</p>
+            <h2>Поверніться до своїх ідей</h2>
+            <p>Введіть email і пароль, аби негайно продовжити з місця зупинки.</p>
+          </div>
+
+          <form className="auth-form" onSubmit={handleSubmit}>
+            {error && <div className="error-msg">{error}</div>}
+            <label>
+              <span>Email</span>
+              <input
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+              />
+            </label>
+            <label>
+              <span>Пароль</span>
+              <input
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+              />
+            </label>
+            <button type="submit" disabled={loading}>
+              {loading ? "Вхід..." : "Увійти"}
+            </button>
+          </form>
+
+          <div className="form-divider" aria-hidden="true">
+            <span>або</span>
+          </div>
+
+          <button type="button" className="btn-ghost" disabled>
+            Magic link (скоро)
           </button>
-        </form>
-        <p className="auth-link">
-          Немає акаунту? <Link to="/register">Зареєструватися</Link>
-        </p>
+
+          <p className="auth-link">
+            Немає акаунту? <Link to="/register">Зареєструйтеся</Link>
+          </p>
+        </section>
       </div>
     </div>
   );
