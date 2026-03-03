@@ -1,9 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function NoteForm({ onSubmit, initialData, onCancel, submitLabel = "Зберегти" }) {
   const [title, setTitle] = useState(initialData?.title ?? "");
   const [content, setContent] = useState(initialData?.content ?? "");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (initialData) {
+      setTitle(initialData.title ?? "");
+      setContent(initialData.content ?? "");
+    }
+  }, [initialData]);
 
   function handleSubmit(e) {
     e.preventDefault();

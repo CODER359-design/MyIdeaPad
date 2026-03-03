@@ -22,6 +22,7 @@ export default function Notes() {
   const navigate = useNavigate();
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const noteCount = notes.length;
 
   useEffect(() => {
     if (!user) return;
@@ -82,43 +83,90 @@ export default function Notes() {
 
   return (
     <div className="notes-page">
-      <header className="notes-header">
-        <h1>MyIdeaPad</h1>
-        <div className="header-actions">
-          <span className="user-email">{user.email}</span>
-          <button type="button" className="btn-logout" onClick={handleLogout}>
-            Вийти
-          </button>
+      <header className="notes-hero">
+        <div className="notes-hero__text">
+          <p className="eyebrow">Осмислені нотатки без шуму</p>
+          <h1>Захоплюй ідеї, як у топ-додатках</h1>
+          <p className="notes-hero__subtitle">
+            Моментальне збереження, приватність та витончена типографіка, щоби кожна думка
+            відчувалася як концепт продукту.
+          </p>
+          <div className="hero-chips">
+            <span className="chip chip--accent">Realtime sync</span>
+            <span className="chip">End-to-end privacy</span>
+            <span className="chip">Inspiration radar</span>
+          </div>
+        </div>
+        <div className="notes-hero__panel">
+          <div className="metric-card">
+            <span className="metric-card__label">Активні нотатки</span>
+            <strong className="metric-card__value">{noteCount}</strong>
+            <span className="metric-card__hint">оновлюються миттєво</span>
+          </div>
+          <div className="metric-card metric-card--user">
+            <span className="metric-card__label">Акаунт</span>
+            <strong className="metric-card__value metric-card__value--email">{user.email}</strong>
+            <button type="button" className="btn-logout" onClick={handleLogout}>
+              Вийти
+            </button>
+          </div>
         </div>
       </header>
 
-      <main className="notes-main">
-        <section className="notes-form-section">
-          <h2>Нова нотатка</h2>
-          <NoteForm onSubmit={handleCreate} submitLabel="Додати" />
-        </section>
+      <main className="notes-shell">
+        <aside className="notes-panel">
+          <div className="notes-panel__card">
+            <div className="panel-heading">
+              <p className="eyebrow">Швидкий запис</p>
+              <h2>Збережіть натхнення</h2>
+              <p className="panel-heading__hint">Використовуйте enter + shift, щоб додати абзац</p>
+            </div>
+            <NoteForm onSubmit={handleCreate} submitLabel="Додати" />
+          </div>
+        </aside>
 
-        <section className="notes-list-section">
-          <h2>Мої нотатки</h2>
-          {loading ? (
-            <div className="spinner" aria-label="Завантаження">
-              <div className="spinner__circle" />
+        <section className="notes-feed">
+          <div className="feed-toolbar">
+            <div>
+              <p className="eyebrow">Мої нотатки</p>
+              <h2>Стрічка ідей</h2>
             </div>
-          ) : notes.length === 0 ? (
-            <p className="empty-state">У вас ще немає нотаток. Створіть першу!</p>
-          ) : (
-            <div className="notes-grid">
-              {notes.map((note, index) => (
-                <NoteCard
-                  key={note.id}
-                  note={note}
-                  index={index}
-                  onUpdate={handleUpdate}
-                  onDelete={handleDelete}
-                />
-              ))}
+            <div className="feed-toolbar__actions">
+              <button className="chip-button chip-button--active" type="button">
+                Усі
+              </button>
+              <button className="chip-button" type="button" disabled>
+                Фокус
+              </button>
+              <button className="chip-button" type="button" disabled>
+                Драфти
+              </button>
             </div>
-          )}
+          </div>
+
+          <div className="notes-feed__body">
+            {loading ? (
+              <div className="spinner" aria-label="Завантаження">
+                <div className="spinner__circle" />
+              </div>
+            ) : noteCount === 0 ? (
+              <p className="empty-state">
+                У вас ще немає нотаток. Почніть із однієї думки — вона задасть ритм усій стрічці.
+              </p>
+            ) : (
+              <div className="notes-grid">
+                {notes.map((note, index) => (
+                  <NoteCard
+                    key={note.id}
+                    note={note}
+                    index={index}
+                    onUpdate={handleUpdate}
+                    onDelete={handleDelete}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
         </section>
       </main>
     </div>

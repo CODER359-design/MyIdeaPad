@@ -1,21 +1,6 @@
 import { useState } from "react";
 import NoteForm from "./NoteForm";
-
-function formatTimeAgo(timestamp) {
-  if (!timestamp?.toDate) return "";
-  const date = timestamp.toDate();
-  const now = new Date();
-  const diffMs = now - date;
-  const diffMins = Math.floor(diffMs / 60000);
-  const diffHours = Math.floor(diffMs / 3600000);
-  const diffDays = Math.floor(diffMs / 86400000);
-
-  if (diffMins < 1) return "щойно";
-  if (diffMins < 60) return `${diffMins} хв. тому`;
-  if (diffHours < 24) return `${diffHours} год. тому`;
-  if (diffDays < 7) return `${diffDays} дн. тому`;
-  return date.toLocaleDateString("uk-UA");
-}
+import { formatTimeAgo } from "../utils/time";
 
 export default function NoteCard({ note, index = 0, onUpdate, onDelete }) {
   const [editing, setEditing] = useState(false);
@@ -39,14 +24,17 @@ export default function NoteCard({ note, index = 0, onUpdate, onDelete }) {
 
   if (editing) {
     return (
-      <div className="note-card note-card--editing">
+      <article
+        className="note-card note-card--editing"
+        style={{ animationDelay: `${index * 0.06}s` }}
+      >
         <NoteForm
           initialData={{ title: note.title, content: note.content }}
           onSubmit={handleUpdate}
           onCancel={() => setEditing(false)}
           submitLabel="Зберегти зміни"
         />
-      </div>
+      </article>
     );
   }
 
